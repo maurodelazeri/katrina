@@ -11,6 +11,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/jmoiron/sqlx"
+	"github.com/maurodelazeri/katrina/datastore"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -25,6 +27,14 @@ const (
 
 )
 
+const (
+	host     = "localhost"
+	dbport   = 5432
+	user     = "postgres"
+	password = "aiphu9ohs8ma0ohBeew"
+	dbname   = "origin"
+)
+
 type UploadResponse struct {
 	Success      bool   `json:"success"`
 	Error        string `json:"error,omitempty"`
@@ -32,6 +42,15 @@ type UploadResponse struct {
 }
 
 func main() {
+
+	var err error
+	datastore.DB, err = sqlx.Connect("postgres", "user=postgres password=aiphu9ohs8ma0ohBeew dbname=origin sslmode=disable")
+	if err != nil {
+		log.Fatal("Problem with database connection")
+	}
+
+	defer datastore.DB.Close()
+
 	flag.Parse()
 	hostPort := fmt.Sprintf("0.0.0.0:%d", *port)
 	log.Printf("Initiating server listening at [%s]", hostPort)
