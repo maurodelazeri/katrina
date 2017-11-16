@@ -31,7 +31,7 @@ const (
 	host     = "localhost"
 	dbport   = 5432
 	user     = "postgres"
-	password = "aiphu9ohs8ma0ohBeew"
+	password = "XXXXXX"
 	dbname   = "origin"
 )
 
